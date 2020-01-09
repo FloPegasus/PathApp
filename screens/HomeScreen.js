@@ -12,56 +12,78 @@ import {
 
 import { MonoText } from '../components/StyledText';
 
-export default function HomeScreen() {
-  return (
-    <View style={styles.container}>
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={styles.contentContainer}>
-        <View style={styles.welcomeContainer}>
-         <Text style={styles.welcomeContainer}>PathFinder</Text>
-          
-        </View>
+class HomeScreen extends React.Component {
+  static navigationOptions = {
+    title:'PATHFINDER',
+  };
+  async componentDidMount() {
+    const {status: existingStatus} = await Permissions.getAsync(
+      Permissions.NOTIFICATIONS
+      );
+      let finalStatus =existingStatus;
+      if (existingStatus !== 'granted'){
+        const {status} = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+        finalStatus = status;
+      }
+      if (finalStatus !== 'granted'){
+        return;
+      }
+      let token = await Notifications.getExpoPushTokenAsync();
+      console.log(token)
+      console.log("test")
+    }
+    render () {
+      export default function HomeScreen() {
+        return (
+          <View style={styles.container}>
+            <ScrollView
+              style={styles.container}
+              contentContainerStyle={styles.contentContainer}>
+              <View style={styles.welcomeContainer}>
+              <Text style={styles.welcomeContainer}>PathFinder</Text>
+                
+              </View>
 
-        <View style={styles.getStartedContainer}>
-          <DevelopmentModeNotice />
+              <View style={styles.getStartedContainer}>
+                <DevelopmentModeNotice />
 
-          <Text style={styles.getStartedText}>New Personnage</Text>
+                <Text style={styles.getStartedText}>New Personnage</Text>
 
-          <View
-            style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
-            <MonoText>screens/HomeScreen.js</MonoText>
+                <View
+                  style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
+                  <MonoText>screens/HomeScreen.js</MonoText>
+                </View>
+
+                <Text style={styles.getStartedText}>
+                  Change this text and your app will automatically reload.
+                </Text>
+              </View>
+
+              <View style={styles.helpContainer}>
+                <TouchableOpacity onPress={handleHelpPress} style={styles.helpLink}>
+                  <Text style={styles.helpLinkText}>
+                    Help, it didn’t automatically reload!
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </ScrollView>
+
+            <View style={styles.tabBarInfoContainer}>
+              <Text style={styles.tabBarInfoText}>
+                This is a tab bar. You can edit it in:
+              </Text>
+
+              <View
+                style={[styles.codeHighlightContainer, styles.navigationFilename]}>
+                <MonoText style={styles.codeHighlightText}>
+                  navigation/MainTabNavigator.js
+                </MonoText>
+              </View>
+            </View>
           </View>
-
-          <Text style={styles.getStartedText}>
-            Change this text and your app will automatically reload.
-          </Text>
-        </View>
-
-        <View style={styles.helpContainer}>
-          <TouchableOpacity onPress={handleHelpPress} style={styles.helpLink}>
-            <Text style={styles.helpLinkText}>
-              Help, it didn’t automatically reload!
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
-
-      <View style={styles.tabBarInfoContainer}>
-        <Text style={styles.tabBarInfoText}>
-          This is a tab bar. You can edit it in:
-        </Text>
-
-        <View
-          style={[styles.codeHighlightContainer, styles.navigationFilename]}>
-          <MonoText style={styles.codeHighlightText}>
-            navigation/MainTabNavigator.js
-          </MonoText>
-        </View>
-      </View>
-    </View>
-  );
-}
+        );
+      }
+    };
 
 HomeScreen.navigationOptions = {
   header: null,

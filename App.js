@@ -2,10 +2,12 @@ import { AppLoading } from 'expo';
 import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
 import React, { useState } from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import {SafeAreaView, Platform, StatusBar, StyleSheet, View, Button, Text, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 import AppNavigator from './navigation/AppNavigator';
+
+import Constants from 'expo-constants';
 
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
@@ -44,6 +46,11 @@ async function loadResourcesAsync() {
   ]);
 }
 
+function Separator() {
+  return <View style={styles.separator} />;
+}
+
+
 function handleLoadingError(error) {
   // In this case, you might want to report the error to your error reporting
   // service, for example Sentry
@@ -54,9 +61,9 @@ function handleFinishLoading(setLoadingComplete) {
   setLoadingComplete(true);
 }
 
+
+
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
+  container: {flex: 1, backgroundColor: '#fff',
   },
 });
