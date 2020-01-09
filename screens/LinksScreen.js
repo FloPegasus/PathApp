@@ -1,21 +1,21 @@
 import React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
-import { ExpoLinksView } from '@expo/samples';
+import { StyleSheet } from 'react-native';
+import { Container, Header, Content, Icon } from 'native-base';
 
 export default function LinksScreen() {
   return (
-    <ScrollView style={styles.container}>
-      {/**
-       * Go ahead and delete ExpoLinksView and replace it with your content;
-       * we just wanted to provide you with some helpful links.
-       */}
-      <ExpoLinksView />
-    </ScrollView>
+    <Container>
+        <Content>
+          <Icon name='add' />
+          <Icon ios='ios-menu' android="md-menu" style={{fontSize: 20, color: 'red'}}/>
+          <Icon type="FontAwesome" name="home" />
+        </Content>
+    </Container>
   );
 }
 
 LinksScreen.navigationOptions = {
-  title: 'Links',
+  title: 'Icons',
 };
 
 const styles = StyleSheet.create({
