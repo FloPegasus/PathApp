@@ -1,5 +1,6 @@
 import {baseUrl} from '../constant'
 import ConnexionService from './ConnexionService'
+import {AsyncStorage} from 'react-native';
 
 class BaseService {
 
@@ -24,7 +25,7 @@ class BaseService {
                 headers: { 
                     Accept: "application/json",
                     "Content-Type": "application/json",
-                    Authorization: "Bearer " + localStorage.getItem("token")
+                    Authorization: "Bearer " + await AsyncStorage.getItem("token")
                 }
             }
         )
@@ -39,7 +40,7 @@ class BaseService {
                 headers: { 
                     Accept: "application/json",
                     "Content-Type": "application/json",
-                    Authorization: "Bearer " + localStorage.getItem("token")
+                    Authorization: "Bearer " + await AsyncStorage.getItem("token")
                 }
             }
         )
@@ -54,7 +55,7 @@ class BaseService {
                 headers: { 
                     Accept: "application/json",
                     "Content-Type": "application/json",
-                    Authorization: "Bearer " + localStorage.getItem("token")
+                    Authorization: "Bearer " + await AsyncStorage.getItem("token")
                 },
                 body: JSON.stringify(item)
             }
@@ -70,7 +71,7 @@ class BaseService {
                 headers: { 
                     Accept: "application/json",
                     "Content-Type": "application/json",
-                    Authorization: "Bearer " + localStorage.getItem("token")
+                    Authorization: "Bearer " + await AsyncStorage.getItem("token")
                 },
                 body: JSON.stringify(item)
             }
@@ -86,7 +87,7 @@ class BaseService {
                 headers: { 
                     Accept: "application/json",
                     "Content-Type": "application/json",
-                    Authorization: "Bearer " + localStorage.getItem("token")
+                    Authorization: "Bearer " + await AsyncStorage.getItem("token")
                 }
             }
         )

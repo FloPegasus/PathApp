@@ -1,28 +1,19 @@
-import React from 'react';
-import { createAppContainer, createSwitchNavigator} from 'react-navigation';
+import { createAppContainer} from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
-import HomeCharacterScreen from '../screens/Character/HomeCharacterScreen'
+import HomeScreen from '../screens/HomeScreen';
+import LoginScreen from '../screens/LoginScreen';
+import PersonnagesScreen from '../screens/PersonnagesScreen';
+import Inscription from '../screens/Inscription';
 
 
-import MainTabNavigator from './MainTabNavigator';
-
-const config = Platform.select({
-  web: { headerMode: 'screen' },
-  default: {},
+const MainNavigator = createStackNavigator({
+  Home: {screen: HomeScreen},
+  Personnages: {screen: PersonnagesScreen},
+  Login: {screen: LoginScreen},
+  Inscription: {screen: Inscription},
 });
 
-const HomeCharacterStack = createStackNavigator(
-  {
-    HomeCharacter: HomeCharacterScreen,
-  },
-  config
-);
+const AppNavigator = createAppContainer(MainNavigator);
 
-export default createAppContainer(
-  createSwitchNavigator({
-    // You could add another route here for authentication.
-    // Read more at https://reactnavigation.org/docs/en/auth-flow.html
-    Main: MainTabNavigator,
-    Character: HomeCharacterStack
-  })
-);
+export default AppNavigator;
+

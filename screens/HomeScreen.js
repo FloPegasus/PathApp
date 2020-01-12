@@ -1,15 +1,18 @@
-import React , { Component } from 'react';
-import { Container, List, ListItem, Content, Text, Button, Icon, Header } from 'native-base';
+import React from 'react';
+import { Button, Icon, Text, Container, List, ListItem, Footer, FooterTab, Content } from 'native-base';
+import { StyleSheet, AsyncStorage } from 'react-native';
 import { Notifications } from 'expo';
 import * as Permissions from 'expo-permissions';
+import UserFooterBar from '../components/UserFooterBar'
 
-export default class HomeScreen extends Component {
+
+class HomeScreen extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
   }
 
-  static navigationOptions =  {
-    title: 'Home',
+  static navigationOptions = {
+    title: 'PATHFINDER',
   };
 
   async componentDidMount() {
@@ -18,58 +21,70 @@ export default class HomeScreen extends Component {
       Permissions.NOTIFICATIONS
     );
     let finalStatus = existingStatus;
-  
-    // only ask if permissions have not already been determined, because
-    // iOS won't necessarily prompt the user a second time.
+
     if (existingStatus !== 'granted') {
-      // Android remote notification permissions are granted during the app
-      // install, so this will only ask on iOS
+
       const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
       finalStatus = status;
     }
-  
-    // Stop here if the user did not grant permissions
     if (finalStatus !== 'granted') {
       return;
     }
-  
-    // Get the token that uniquely identifies this device
+
     let token = await Notifications.getExpoPushTokenAsync();
     console.log(token)
-  
-    // POST the token to your backend server from where you can retrieve it to send push notifications.
-    /*return fetch(PUSH_ENDPOINT, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        token: {
-          value: token,
-        },
-        user: {
-          username: 'Brent',
-        },
-      }),
-    });*/
-
   }
 
-  addCharacter() {}
+  async setFooterTab() {
+    let userName = await AsyncStorage.getItem('userName')
+    if (userName) {
+      return (<UserFooterBar userName={userName}></UserFooterBar>)
+    } else {
+      return (
+          <FooterTab>
+            <Button full succsess
+              onPress={() => navigate('Login', { name: 'Jane' })}>
+              <Text >Login</Text>
+            </Button>
+          </FooterTab>
+      )
+    }
+  }
 
   render() {
-    const {navigate} = this.props.navigation
+    const { navigate } = this.props.navigation;
     return (
+
       <Container>
-        
         <Content>
-          <Button iconLeft block light onPress={()=> navigate('Character')}>
-            <Icon name="add"></Icon>
-            <Text>Nouveau Personnage</Text>
-          </Button>
+          <List>
+            <Button iconLeft block light
+              onPress={() => navigate('Personnages', { name: '' })}
+            >
+              <Icon name="add"></Icon>
+              <Text>Nouveau Personnage</Text>
+            </Button>
+          </List>
         </Content>
+        <Footer>
+          {this.setFooterTab()}
+        </Footer>
       </Container>
+
     );
+
   }
-};
+}
+
+const styles = StyleSheet.create({
+
+  MainContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: null,
+    height: null,
+  }
+});
+
+export default HomeScreen;
